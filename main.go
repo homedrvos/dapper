@@ -68,6 +68,11 @@ func main() {
 			Value: ".",
 			Usage: "The directory in which to run, --file is relative to this",
 		},
+		cli.StringFlag{
+			Name:  "network, N",
+			Value: "",
+			Usage: "Network to use for the docker",
+		},
 		cli.BoolFlag{
 			Name:  "shell, s",
 			Usage: "Launch a shell",
@@ -131,6 +136,7 @@ func run(c *cli.Context) error {
 	dapperFile.NoContext = c.Bool("no-context")
 	dapperFile.MountSuffix = c.String("mount-suffix")
 	dapperFile.Target = c.String("target")
+	dapperFile.Network = c.String("network")
 
 	if shell {
 		return dapperFile.Shell(c.Args())

@@ -40,6 +40,7 @@ type Dapperfile struct {
 	NoContext   bool
 	MountSuffix string
 	Target      string
+	Network     string
 }
 
 func Lookup(file string) (*Dapperfile, error) {
@@ -180,6 +181,10 @@ func (d *Dapperfile) runArgs(tag, shell string, commandArgs []string) (string, [
 		args = append(args, "-v", d.vSocket())
 	}
 
+	if d.Network != "" {
+		args = append(args, "--network", d.Network)
+	}
+
 	if d.IsBind() {
 		wd, err := os.Getwd()
 		if err == nil {
@@ -247,6 +252,10 @@ func (d *Dapperfile) build(args []string, copy bool) (string, error) {
 
 	if d.Target != "" {
 		buildArgs = append(buildArgs, "--target", d.Target)
+	}
+
+	if d.Network != "" {
+		buildArgs = append(buildArgs, "--network", d.Network)
 	}
 
 	for _, v := range d.Args {
